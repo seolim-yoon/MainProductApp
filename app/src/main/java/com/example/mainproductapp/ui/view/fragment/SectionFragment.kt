@@ -12,6 +12,7 @@ import com.example.mainproductapp.databinding.FragmentSectionBinding
 import com.example.mainproductapp.ui.adapter.SectionListAdapter
 import com.example.mainproductapp.viewmodel.SectionViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SectionFragment: Fragment() {
@@ -19,8 +20,11 @@ class SectionFragment: Fragment() {
     private val viewBinding get() = _viewBinding!!
 
     private val viewModel: SectionViewModel by viewModels()
-    private var currentPage = 0
+    private var currentPage = 1
     private var nextPage: Int? = null
+
+    @Inject
+    lateinit var sectionAdapter: SectionListAdapter
 
     private val rvScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -34,7 +38,6 @@ class SectionFragment: Fragment() {
                     currentPage = it
                     requestApi(currentPage)
                 }
-
             }
         }
     }
@@ -53,7 +56,7 @@ class SectionFragment: Fragment() {
 
     private fun initView() {
         with(viewBinding) {
-            rvMainSectionList.adapter = SectionListAdapter()
+            rvMainSectionList.adapter = sectionAdapter
             rvMainSectionList.addOnScrollListener(rvScrollListener)
         }
     }
@@ -62,6 +65,7 @@ class SectionFragment: Fragment() {
         with(viewModel) {
             sectionDataLiveData.observe(viewLifecycleOwner) { sectionData ->
                 nextPage = sectionData.paging?.nextPage
+                sectionAdapter.addSectionList(sectionData.data?.toMutableList() ?: mutableListOf())
             }
         }
     }

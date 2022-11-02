@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="product"
+            type="com.example.mainproductapp.ui.model.ProductModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -12,6 +18,8 @@
             android:id="@+id/iv_product_img_url"
             android:layout_width="150dp"
             android:layout_height="200dp"
+            imageUrl="@{product.imgUrl}"
+            android:adjustViewBounds="true"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -20,14 +28,15 @@
             android:id="@+id/iv_product_wish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_btn_heart_off"
+            android:src="@{product.wishItem ? @drawable/ic_btn_heart_on : @drawable/ic_btn_heart_off}"
             app:layout_constraintTop_toTopOf="@id/iv_product_img_url"
             app:layout_constraintEnd_toEndOf="@id/iv_product_img_url"/>
 
         <TextView
-            android:id="@+id/tv_product_title"
+            android:id="@+id/tv_product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{product.name}"
             android:textSize="17dp"
             android:layout_marginTop="10dp"
             android:maxLines="2"
@@ -45,7 +54,7 @@
             android:textSize="15dp"
             android:textStyle="bold"
             android:textColor="@color/discount_rate"
-            app:layout_constraintTop_toBottomOf="@id/tv_product_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_product_name"
             app:layout_constraintStart_toStartOf="@id/iv_product_img_url"
             tools:text="0%"/>
 
@@ -53,6 +62,7 @@
             android:id="@+id/tv_product_discount_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            productPrice="@{product.discountPrice}"
             android:textSize="15dp"
             android:textStyle="bold"
             android:layout_marginStart="5dp"
@@ -65,6 +75,7 @@
             android:id="@+id/tv_product_original_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            productPrice="@{product.originalPrice}"
             android:textSize="15dp"
             android:textStyle="bold"
             android:textColor="@color/gray"

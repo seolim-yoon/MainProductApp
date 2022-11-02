@@ -6,8 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mainproductapp.databinding.ItemSectionBinding
 import com.example.mainproductapp.server.response.SectionData
 import com.example.mainproductapp.ui.holder.SectionListViewHolder
+import dagger.hilt.android.scopes.FragmentScoped
+import javax.inject.Inject
 
-class SectionListAdapter : RecyclerView.Adapter<SectionListViewHolder>() {
+@FragmentScoped
+class SectionListAdapter @Inject constructor() : RecyclerView.Adapter<SectionListViewHolder>() {
     private val sectionItemList: MutableList<SectionData.Section> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SectionListViewHolder =
@@ -23,4 +26,14 @@ class SectionListAdapter : RecyclerView.Adapter<SectionListViewHolder>() {
     }
 
     override fun getItemCount(): Int = sectionItemList.size
+
+    fun addSectionList(nextSectionList: MutableList<SectionData.Section>) {
+        sectionItemList.addAll(nextSectionList)
+        notifyDataSetChanged()
+    }
+
+    fun clearSectionList() {
+        sectionItemList.clear()
+        notifyDataSetChanged()
+    }
 }

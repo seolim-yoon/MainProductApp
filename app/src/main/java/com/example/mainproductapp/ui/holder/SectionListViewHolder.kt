@@ -5,9 +5,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mainproductapp.databinding.ItemSectionBinding
 import com.example.mainproductapp.server.response.SectionData
+import com.example.mainproductapp.ui.adapter.ProductListAdapter
 import com.example.mainproductapp.util.SectionType
+import javax.inject.Inject
 
 class SectionListViewHolder(private val binding: ItemSectionBinding): RecyclerView.ViewHolder(binding.root) {
+
+    @Inject
+    lateinit var productAdapter: ProductListAdapter
+
     fun bind(section: SectionData.Section) {
         binding.section = section
 
@@ -28,5 +34,6 @@ class SectionListViewHolder(private val binding: ItemSectionBinding): RecyclerVi
             }
         }
 
+//        binding.rvSectionList.adapter = productAdapter
     }
 }
