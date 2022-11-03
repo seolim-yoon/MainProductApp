@@ -10,9 +10,9 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="170dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/iv_product_img_url"

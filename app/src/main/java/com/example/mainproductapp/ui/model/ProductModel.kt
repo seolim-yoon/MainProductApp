@@ -7,5 +7,5 @@ data class ProductModel(
     val originalPrice: Int,
     val discountPrice: Int?,
     var viewType: String?,
-    val isWishItem: Boolean
-): BaseModel
+    var isWishItem: Boolean
+)

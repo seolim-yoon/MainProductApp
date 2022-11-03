@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
         <variable
             name="section"
             type="com.example.mainproductapp.ui.model.SectionModel" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:padding="10dp">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/tv_section_title"
@@ -22,6 +22,7 @@
             android:textSize="18dp"
             android:textStyle="bold"
             android:padding="10dp"
+            android:layout_margin="5dp"
             android:background="@color/purple_200"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +34,8 @@
             android:id="@+id/rv_section_list"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/tv_section_title"
