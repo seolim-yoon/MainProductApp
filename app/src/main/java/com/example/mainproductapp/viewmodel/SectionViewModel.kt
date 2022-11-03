@@ -8,36 +8,32 @@ import com.example.mainproductapp.server.response.SectionData
 import com.example.mainproductapp.server.response.SectionProductData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 @HiltViewModel
-class SectionViewModel @Inject constructor(private val repositoryImpl: SectionRepositoryImpl): BaseViewModel() {
+class SectionViewModel @Inject constructor(private val repositoryImpl: SectionRepositoryImpl) :
+    BaseViewModel() {
 
-    private val _sectionDataLiveData = MutableLiveData<SectionData>()
-    val sectionDataLiveData: LiveData<SectionData>
-        get() = _sectionDataLiveData
-
-    private val _sectionProductDataLiveData = MutableLiveData<SectionProductData>()
-    val sectionProductDataLiveData: LiveData<SectionProductData>
+    private val _sectionProductDataLiveData = MutableLiveData<Pair<SectionData.Section, SectionProductData>>()
+    val sectionProductDataLiveData: LiveData<Pair<SectionData.Section, SectionProductData>>
         get() = _sectionProductDataLiveData
 
-    fun getSectionList(page: Int) {
-        addDisposable(
-            repositoryImpl.getSectionList(page)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ sectionData ->
-                    _sectionDataLiveData.value = sectionData
-                }, { e ->
-                    Log.e("seolim", "error : " + e.message)
-                })
-        )
-    }
+    fun getSectionProductList(page: Int) {
+        val observableSection = repositoryImpl.getSectionList(page)
+            .map { sectionData -> sectionData.data }
+            .flatMapObservable { sectionList -> Observable.fromIterable(sectionList) }
 
-    fun getSectionProductList(sectionId: Int) {
+        val observableProduct = observableSection
+            .concatMap { section ->
+                repositoryImpl.getSectionProductList(section.id ?: 1).toObservable()
+            }
+
         addDisposable(
-            repositoryImpl.getSectionProductList(sectionId)
+            Observable.zip(observableSection, observableProduct) { section, product ->
+                Pair<SectionData.Section, SectionProductData>(section, product)
+            }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ sectionProductData ->

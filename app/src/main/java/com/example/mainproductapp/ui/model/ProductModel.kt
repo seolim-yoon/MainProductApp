@@ -6,6 +6,6 @@ data class ProductModel(
     val imgUrl: String,
     val originalPrice: Int,
     val discountPrice: Int?,
-    val viewType: Int?,
+    var viewType: String?,
     val isWishItem: Boolean
-)
+): BaseModel

@@ -10,7 +10,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:padding="10dp">
 
@@ -19,7 +19,6 @@
             android:layout_width="150dp"
             android:layout_height="200dp"
             imageUrl="@{product.imgUrl}"
-            android:adjustViewBounds="true"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -28,6 +27,7 @@
             android:id="@+id/iv_product_wish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:src="@{product.wishItem ? @drawable/ic_btn_heart_on : @drawable/ic_btn_heart_off}"
             app:layout_constraintTop_toTopOf="@id/iv_product_img_url"
             app:layout_constraintEnd_toEndOf="@id/iv_product_img_url"/>
@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:text="@{product.name}"
             android:textSize="17dp"
+            android:textColor="@color/black"
             android:layout_marginTop="10dp"
             android:maxLines="2"
             android:ellipsize="end"
@@ -45,7 +46,7 @@
             app:layout_constraintTop_toBottomOf="@id/iv_product_img_url"
             app:layout_constraintStart_toStartOf="@id/iv_product_img_url"
             app:layout_constraintEnd_toEndOf="@id/iv_product_img_url"
-            tools:text="title"/>
+            tools:text="title title title title title title title"/>
 
         <TextView
             android:id="@+id/tv_product_discount_rate"
@@ -63,6 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             productPrice="@{product.discountPrice}"
+            android:textColor="@color/black"
             android:textSize="15dp"
             android:textStyle="bold"
             android:layout_marginStart="5dp"

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class SectionData(
     @SerializedName("data")
-    val `data`: List<Section>?,
+    val `data`: List<Section>,
     @SerializedName("paging")
     val paging: Paging?
 ) {
