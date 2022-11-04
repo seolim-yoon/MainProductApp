@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="product"
             type="com.example.mainproductapp.ui.model.ProductModel" />
@@ -55,36 +56,43 @@
             android:textSize="15dp"
             android:textStyle="bold"
             android:textColor="@color/discount_rate"
-            app:layout_constraintTop_toBottomOf="@id/tv_product_name"
+            android:layout_marginEnd="5dp"
+            android:visibility="@{product.discountPrice == null ? View.GONE : View.VISIBLE}"
+            originPrice="@{product.originalPrice}"
+            discountPrice="@{product.discountPrice}"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintTop_toTopOf="@id/tv_product_discount_price"
             app:layout_constraintStart_toStartOf="@id/iv_product_img_url"
+            app:layout_constraintBottom_toBottomOf="@id/tv_product_discount_price"
+            app:layout_constraintEnd_toStartOf="@id/tv_product_discount_price"
             tools:text="0%"/>
 
         <TextView
             android:id="@+id/tv_product_discount_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            productPrice="@{product.discountPrice}"
             android:textColor="@color/black"
             android:textSize="15dp"
             android:textStyle="bold"
-            android:layout_marginStart="5dp"
-            app:layout_constraintTop_toTopOf="@id/tv_product_discount_rate"
+            android:layout_marginTop="10dp"
+            productPrice="@{product.discountPrice == null ? product.originalPrice : product.discountPrice}"
+            app:layout_constraintTop_toBottomOf="@id/tv_product_name"
             app:layout_constraintStart_toEndOf="@id/tv_product_discount_rate"
-            app:layout_constraintBottom_toBottomOf="@id/tv_product_discount_rate"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="6,000원"/>
 
         <TextView
             android:id="@+id/tv_product_original_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            productPrice="@{product.originalPrice}"
             android:textSize="15dp"
             android:textStyle="bold"
             android:textColor="@color/gray"
-            android:layout_marginStart="5dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_product_discount_rate"
+            android:visibility="@{product.discountPrice == null ? View.INVISIBLE : View.VISIBLE}"
+            productPrice="@{product.originalPrice}"
+            app:layout_constraintTop_toBottomOf="@id/tv_product_discount_price"
             app:layout_constraintStart_toStartOf="@id/iv_product_img_url"
-            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="6,000원"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

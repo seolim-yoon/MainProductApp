@@ -16,13 +16,20 @@ import javax.inject.Inject
 class SectionViewModel @Inject constructor(private val repositoryImpl: SectionRepositoryImpl) :
     BaseViewModel() {
 
+    private val _sectionDataLiveData = MutableLiveData<SectionData>()
+    val sectionDataLiveData: LiveData<SectionData>
+        get() = _sectionDataLiveData
+
     private val _sectionProductDataLiveData = MutableLiveData<Pair<SectionData.Section, SectionProductData>>()
     val sectionProductDataLiveData: LiveData<Pair<SectionData.Section, SectionProductData>>
         get() = _sectionProductDataLiveData
 
     fun getSectionProductList(page: Int) {
         val observableSection = repositoryImpl.getSectionList(page)
-            .map { sectionData -> sectionData.data }
+            .map { sectionData ->
+                _sectionDataLiveData.postValue(sectionData)
+                sectionData.data
+            }
             .flatMapObservable { sectionList -> Observable.fromIterable(sectionList) }
 
         val observableProduct = observableSection

@@ -11,6 +11,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.mainproductapp.R
 import com.example.mainproductapp.util.DecimalFormat
 import com.example.mainproductapp.util.SectionType
+import kotlin.math.roundToInt
 
 object ProductBindingAdapter {
     @BindingAdapter("imageUrl")
@@ -53,6 +54,14 @@ object ProductBindingAdapter {
                     recyclerView.layoutManager = layoutManager
                 }
             }
+        }
+    }
+
+    @BindingAdapter("originPrice", "discountPrice")
+    @JvmStatic
+    fun setDiscountRate(textView: TextView, originPrice: Int, discountPrice: Int?) {
+        discountPrice?.let {
+            textView.text = ((originPrice - discountPrice).toDouble() / originPrice.toDouble() * 100).roundToInt().toString() + "%"
         }
     }
 }

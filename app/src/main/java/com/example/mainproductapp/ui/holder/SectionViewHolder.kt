@@ -18,8 +18,9 @@ class SectionViewHolder(private val binding: ItemSectionBinding) :
         val section = SectionDataMapper().map(sectionProduct.first)
         binding.section = section
         binding.rvSectionList.adapter = ProductListAdapter()
+
         (binding.rvSectionList.adapter as ProductListAdapter).apply {
-            addProductList(ProductDataMapper().map(sectionProduct.second)?.toMutableList() ?: mutableListOf())
+            submitList(ProductDataMapper().map(sectionProduct.second)?.toMutableList() ?: mutableListOf())
             setViewType(section.type)
         }
 
