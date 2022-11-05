@@ -1,6 +1,5 @@
 package com.example.mainproductapp.server.response
 
-
 import com.google.gson.annotations.SerializedName
 
 data class SectionData(

@@ -13,18 +13,21 @@ import com.example.mainproductapp.util.SectionType
 class ProductListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val itemList: MutableList<ProductModel> = mutableListOf()
     private var viewType = SectionType.VERTICAL.id
+    private val onItemClicked = { position: Int ->
+        itemList[position].isWishItem = itemList[position].isWishItem.not()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             SectionType.HORIZONTAL.id, SectionType.GRID.id -> {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ItemTwoLineBinding.inflate(layoutInflater, parent, false)
-                TwoLineProductViewHolder(binding)
+                TwoLineProductViewHolder(binding, onItemClicked)
             }
             else -> {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ItemOneLineBinding.inflate(layoutInflater, parent, false)
-                OneLineProductViewHolder(binding)
+                OneLineProductViewHolder(binding, onItemClicked)
             }
         }
     }
@@ -51,7 +54,7 @@ class ProductListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
 
-    fun addProductList(nextProductList: MutableList<ProductModel>) {
+    fun addProductList(nextProductList: List<ProductModel>) {
         itemList.addAll(nextProductList)
         notifyDataSetChanged()
     }

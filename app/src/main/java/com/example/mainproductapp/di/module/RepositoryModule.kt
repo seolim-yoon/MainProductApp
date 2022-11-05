@@ -5,12 +5,11 @@ import com.example.mainproductapp.repository.SectionRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.components.ViewModelComponent
 
 @Module
-@InstallIn(ActivityComponent::class)
-interface RepositoryModule {
-
+@InstallIn(ViewModelComponent::class)
+abstract class RepositoryModule {
     @Binds
-    fun bindSectionRepository(SectionRepositoryImpl: SectionRepositoryImpl): SectionRepository
+    abstract fun bindSectionRepository(SectionRepositoryImpl: SectionRepositoryImpl): SectionRepository
 }

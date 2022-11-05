@@ -4,23 +4,19 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mainproductapp.databinding.ItemSectionBinding
-import com.example.mainproductapp.server.response.SectionData
-import com.example.mainproductapp.server.response.SectionProductData
 import com.example.mainproductapp.ui.adapter.ProductListAdapter
-import com.example.mainproductapp.ui.model.mapper.ProductDataMapper
-import com.example.mainproductapp.ui.model.mapper.SectionDataMapper
+import com.example.mainproductapp.ui.model.SectionModel
 import com.example.mainproductapp.util.SectionType
 
 class SectionViewHolder(private val binding: ItemSectionBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(sectionProduct: Pair<SectionData.Section, SectionProductData>) {
-        val section = SectionDataMapper().map(sectionProduct.first)
+    fun bind(section: SectionModel) {
         binding.section = section
-        binding.rvSectionList.adapter = ProductListAdapter()
 
-        (binding.rvSectionList.adapter as ProductListAdapter).apply {
-            submitList(ProductDataMapper().map(sectionProduct.second)?.toMutableList() ?: mutableListOf())
+        ProductListAdapter().apply {
+            binding.rvSectionList.adapter = this
+            addProductList(section.productList)
             setViewType(section.type)
         }
 

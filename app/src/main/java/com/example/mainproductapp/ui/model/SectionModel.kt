@@ -4,4 +4,6 @@ data class SectionModel(
     val id: Int,
     val title: String,
     val type: String
-)
+) {
+    var productList: List<ProductModel> = listOf()
+}
