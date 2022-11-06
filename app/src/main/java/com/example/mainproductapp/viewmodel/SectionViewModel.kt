@@ -21,6 +21,7 @@ class SectionViewModel @Inject constructor(private val repository: SectionReposi
     val sectionProductDataLiveData: LiveData<SectionModel>
         get() = _sectionProductDataLiveData
 
+    var dataSize = 0
     var currentPage = 1
     var nextPage: Int? = null
 
@@ -31,6 +32,7 @@ class SectionViewModel @Inject constructor(private val repository: SectionReposi
             repository.getSectionList(page)
                 .flatMapObservable { sectionData ->
                     nextPage = sectionData.paging?.nextPage
+                    dataSize = sectionData.data.size
                     Observable.fromIterable(sectionData.data)
                 }
                 .concatMap { section ->
@@ -54,6 +56,7 @@ class SectionViewModel @Inject constructor(private val repository: SectionReposi
     }
 
     fun refresh() {
+        dataSize = 0
         currentPage = 1
         nextPage = null
         clearDisposable()

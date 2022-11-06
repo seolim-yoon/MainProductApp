@@ -2,7 +2,6 @@ package com.example.mainproductapp.ui.view.fragment
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +24,6 @@ class SectionFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private val viewBinding get() = _viewBinding!!
 
     private val viewModel: SectionViewModel by viewModels()
-    private var dataSize = 0
 
     private val sectionAdapter: SectionListAdapter by lazy {
         SectionListAdapter()
@@ -37,10 +35,10 @@ class SectionFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
 
-            val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastCompletelyVisibleItemPosition()
+            val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager?)!!.findLastVisibleItemPosition()
             val itemTotalCount = recyclerView.adapter!!.itemCount - 1
 
-            if (lastVisibleItemPosition == itemTotalCount && dataSize * viewModel.currentPage == sectionAdapter.itemCount) {
+            if (lastVisibleItemPosition == itemTotalCount && viewModel.dataSize * viewModel.currentPage == sectionAdapter.itemCount) {
                 viewModel.showNextPage()
             }
         }
@@ -64,6 +62,8 @@ class SectionFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private fun initView() {
         with(viewBinding.rvMainSectionList) {
+            setHasFixedSize(true)
+            isNestedScrollingEnabled = false
             adapter = sectionAdapter
             addItemDecoration(CustomDividerDecoration(5f, 5f, Color.BLACK))
             addOnScrollListener(rvScrollListener)
@@ -76,7 +76,7 @@ class SectionFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun initRefreshLayout(view: SwipeRefreshLayout) {
-        view.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.purple_200))
+        view.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.purple))
         view.setOnRefreshListener(this)
     }
 
@@ -89,12 +89,12 @@ class SectionFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         }
     }
 
-    private fun requestApi(page: Int) {
-        viewModel.getSectionProductList(page)
-    }
-
     override fun onRefresh() {
         sectionAdapter.clearSectionList()
         viewModel.refresh()
+    }
+
+    private fun requestApi(page: Int) {
+        viewModel.getSectionProductList(page)
     }
 }
