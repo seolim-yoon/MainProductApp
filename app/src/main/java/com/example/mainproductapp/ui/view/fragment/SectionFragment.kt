@@ -94,6 +94,11 @@ class SectionFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         viewModel.refresh()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _viewBinding = null
+    }
+
     private fun requestApi(page: Int) {
         viewModel.getSectionProductList(page)
     }
